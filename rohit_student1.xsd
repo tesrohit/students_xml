@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="Students">
         <xs:complexType>
             <xs:sequence>
-                <xs:element maxOccurs="unbounded" ref="student"/>
+                <xs:element ref="student"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -28,11 +28,58 @@
             </xs:sequence>
         </xs:complexType>
     </xs:element>
-    <xs:element name="year" type="xs:integer"/>
-    <xs:element name="branch1" type="xs:NCName"/>
-    <xs:element name="branch2" type="xs:NCName"/>
-    <xs:element name="ps_ts" type="xs:NCName"/>
-    <xs:element name="no" type="xs:integer"/>
+    <xs:element name="year">
+        <xs:simpleType>
+            <xs:restriction base="xs:integer">
+                <xs:minInclusive value="2010"></xs:minInclusive>
+                <xs:maxInclusive value="2012"></xs:maxInclusive>
+            </xs:restriction>
+        </xs:simpleType>
+    </xs:element>
+    <xs:element name="branch1">
+        <xs:simpleType>
+            <xs:restriction base="xs:string">
+                <xs:enumeration value="A1"/>
+                <xs:enumeration value="A2"/>
+                <xs:enumeration value="A3"/>
+                <xs:enumeration value="A4"/>
+                <xs:enumeration value="A5"/>
+                <xs:enumeration value="A7"/>
+                <xs:enumeration value="AA"/>
+                <xs:enumeration value="B1"/>
+                <xs:enumeration value="B2"/>
+                <xs:enumeration value="B3"/>
+                <xs:enumeration value="B4"/>
+                <xs:enumeration value="B5"/>
+                <xs:enumeration value="C6"/>
+            </xs:restriction>
+        </xs:simpleType>
+    </xs:element>
+    <xs:element name="branch2" default="NULL">
+        <xs:simpleType>
+            <xs:restriction base="xs:string">
+                <xs:enumeration value="A1"/>
+                <xs:enumeration value="A2"/>
+                <xs:enumeration value="A3"/>
+                <xs:enumeration value="A4"/>
+                <xs:enumeration value="A5"/>
+                <xs:enumeration value="A7"/>
+                <xs:enumeration value="AA"/>
+            </xs:restriction>
+        </xs:simpleType>
+    </xs:element>
+
+    <xs:element name="ps_ts" default="PS">
+        <xs:simpleType>
+            <xs:restriction base="xs:string">
+                <xs:enumeration value="PS"/>
+                <xs:enumeration value="TS"/>
+            </xs:restriction>
+        </xs:simpleType>
+    </xs:element>
+
+    <xs:element name="no" type="xs:integer"/><!--Need to be restricted-->
+
     <xs:element name="Name">
         <xs:complexType>
             <xs:sequence>
@@ -43,14 +90,13 @@
         </xs:complexType>
     </xs:element>
     <xs:element name="first_name" type="xs:NCName"/>
-    <xs:element name="middle_name" type="xs:string"/>
+    <xs:element name="middle_name" type="xs:string" default=" "/>
     <xs:element name="last_name" type="xs:NCName"/>
     <xs:element name="contacts">
         <xs:complexType>
             <xs:sequence>
                 <xs:element ref="Emails"/>
                 <xs:element ref="mobile"/>
-                <xs:element ref="landline"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -62,9 +108,28 @@
             </xs:sequence>
         </xs:complexType>
     </xs:element>
-    <xs:element name="primary" type="xs:string"/>
-    <xs:element name="alternative" type="xs:string"/>
-    <xs:element name="mobile" type="xs:integer"/>
+    <xs:element name="primary">
+        <xs:simpleType>
+            <xs:restriction base="xs:string">
+                <xs:pattern value="([a-z][A-Z][0-9])+@.(com|co.in)"></xs:pattern>
+            </xs:restriction>
+        </xs:simpleType>
+    </xs:element>
+    <xs:element name="alternative" nillable="true">
+        <xs:simpleType>
+            <xs:restriction base="xs:string">
+                <xs:pattern value="([a-z][A-Z][0-9])+@.(com|co.in)"></xs:pattern>
+            </xs:restriction>
+        </xs:simpleType>
+    </xs:element>
+    <xs:element name="mobile">
+        <xs:simpleType>
+            <xs:restriction base="xs:string">
+                <xs:pattern value="([7-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9])"></xs:pattern>
+            </xs:restriction>
+        </xs:simpleType>
+    </xs:element>
+
     <xs:element name="pre_requisites">
         <xs:complexType>
             <xs:sequence>
@@ -87,14 +152,14 @@
             </xs:sequence>
         </xs:complexType>
     </xs:element>
-    <xs:element name="c_programming" type="xs:NCName"/>
-    <xs:element name="OOP" type="xs:NCName"/>
-    <xs:element name="Python" type="xs:NCName"/>
-    <xs:element name="machine_learning" type="xs:NCName"/>
-    <xs:element name="data_mining" type="xs:NCName"/>
-    <xs:element name="no_sql" type="xs:NCName"/>
-    <xs:element name="xml" type="xs:NCName"/>
-    <xs:element name="json" type="xs:NCName"/>
+    <xs:element name="c_programming" type="xs:boolean" default="false"/>
+    <xs:element name="OOP" type="xs:boolean" default="false"/>
+    <xs:element name="Python" type="xs:boolean" default="false"/>
+    <xs:element name="machine_learning" type="xs:boolean" default="false"/>
+    <xs:element name="data_mining" type="xs:boolean" default="false"/>
+    <xs:element name="no_sql" type="xs:boolean" default="false"/>
+    <xs:element name="xml" type="xs:boolean" default="false"/>
+    <xs:element name="json" type="xs:boolean" default="false"/>
     <xs:element name="tools">
         <xs:complexType>
             <xs:sequence>
@@ -104,7 +169,7 @@
             </xs:sequence>
         </xs:complexType>
     </xs:element>
-    <xs:element name="pycharm" type="xs:NCName"/>
-    <xs:element name="git_hub" type="xs:NCName"/>
-    <xs:element name="mongo_db" type="xs:NCName"/>
+    <xs:element name="pycharm" type="xs:boolean" default="false"/>
+    <xs:element name="git_hub" type="xs:boolean" default="false"/>
+    <xs:element name="mongo_db" type="xs:boolean" default="false"/>
 </xs:schema>
